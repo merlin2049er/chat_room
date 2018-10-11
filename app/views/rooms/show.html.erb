@@ -3,11 +3,48 @@
 <p>
   <strong>Name:</strong>
   <%= @room.name %>
+  <strong>Subject:</strong>
+  <%= @room.subject %>
+
 </p>
+
+<div class="alert alert-info" style="display:none" role="alert">A new comment was posted!</div>
+
+<% if signed_in? %>
+  <h4>Add a message:</h4>
+  <%= form_for([@room, @room.messages.build]) do |f| %>
+    <p>
+      <%= f.label :body, "Messages" %><br>
+      <%= f.text_area :body %>
+    </p>
+    <p>
+      <%= f.submit "Submit" %>
+    </p>
+  <% end %>
+<% end %>
+
+<div class="product-reviews">
+    <% @messages.each do |message| %>
+      <div class="row">
+        <div class="column">
+
+
+          <hr>
+          <p><small><em><a href="/users/<%= message.user_id %>"><%= message.user.name if message.user %></a> posted <%= "#{time_ago_in_words(message.created_at || Time.now)} ago" %></em></small></p>
+          <p><%= message.body %></p>
+          <%= link_to "up", vote_room_message_path(room_id: @room.id, id: message.id, type: "up"), method: "post" %>
+          <%= link_to "down", vote_room_message_path(room_id: @room.id, id: message.id, type: "down"), method: "post" %>
+          <% if signed_in? && current_user.admin? %>
+            <%= link_to ('<i class="fas fa-trash-alt"></i>').html_safe, room_message_path(room_id: @room.id, id: message.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </div><!-- end col -->
+      </div><!-- end row -->
+    <% end %>
+</div><!-- end product reivews -->
 
 <%= link_to 'Edit', edit_room_path(@room) %> |
 <%= link_to 'Back', rooms_path %>
 
-<% @rooms.each do |room| %>
-  <a href="<%= room.id %>"><%= room.name %></a>
-<% end %>
+<!-- <#% @rooms.each do |room| %>
+  <a href="<#%= room.id %>"><#%= room.name %></a>
+<#% end %> -->

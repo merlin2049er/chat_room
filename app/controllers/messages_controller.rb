@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :set_message, only: [:show, :edit, :update, :destroy, :vote]
 
   # GET /messages
   # GET /messages.json
@@ -24,15 +24,19 @@ class MessagesController < ApplicationController
   # POST /messages
   # POST /messages.json
   def create
-    @message = Message.new(message_params)
+    @room = Room.find(params[:room_id])
+    @message = @room.messages.new(message_params)
+    @message.user = current_user
+    @message.save
 
     respond_to do |format|
       if @message.save
-        format.html { redirect_to @message, notice: 'Message was successfully created.' }
-        format.json { render :show, status: :created, location: @message }
+        ActionCable.server.broadcast 'room_channel', message: @message
+        format.html { redirect_to @room, notice: 'Message was successfully created.' }
+        format.json { render :show, status: :created, location: @room }
       else
         format.html { render :new }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
+        format.json { render json: @room.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -55,10 +59,17 @@ class MessagesController < ApplicationController
   # DELETE /messages/1.json
   def destroy
     @message.destroy
+    room = @message.room
     respond_to do |format|
-      format.html { redirect_to messages_url, notice: 'Message was successfully destroyed.' }
+      format.html { redirect_to room, notice: 'Message was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def vote
+    value = params[:type] == "up" ? 1 : -1
+    @message.add_or_update_evaluation(:votes, value, current_user)
+    redirect_to :back, notice: "Thank you for voting!"
   end
 
   private
@@ -69,6 +80,6 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.fetch(:message, {})
+      params.require(:message).permit(:user_id, :body, :room_id, :utf8, :authenticity_token)
     end
 end

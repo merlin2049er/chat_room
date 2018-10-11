@@ -1,16 +1,28 @@
 class RoomsController < ApplicationController
   before_action :set_room, only: [:show, :edit, :update, :destroy]
+  before_action :available_rooms, only: [:show, :index]
 
   # GET /rooms
   # GET /rooms.json
   def index
-    @rooms = Room.all
+    if params[:q]
+      search_term = params[:q]
+      @rooms = Room.search(search_term)
+      if @rooms.empty?
+        flash[:alert] = "Sorry, nothing matched '#{search_term}'. Try these instead!"
+        @rooms = Room.all
+      end
+    else
+      @rooms = Room.all
+    end
   end
 
   # GET /rooms/1
   # GET /rooms/1.json
   def show
-    @rooms = Room.all
+    Rails.logger.info "#{'$'*80}"
+    Rails.logger.info "@rooms #{@rooms}"
+    @messages = @room.messages.order(created_at: :desc)
   end
 
   # GET /rooms/new
@@ -68,8 +80,11 @@ class RoomsController < ApplicationController
       @room = Room.find(params[:id])
     end
 
+    def available_rooms
+      @rooms = Room.all.order(name: :asc) #this is where pagination would go
+    end
     # Never trust parameters from the scary internet, only allow the white list through.
     def room_params
-      params.require(:room).permit(:name)
+      params.require(:room).permit(:name, :subject)
     end
 end
