@@ -1,14 +1,14 @@
 body {
-  background-color: #fff;
-  color: #333;
+  background-color: #48beff;
+  color: #fff;
   margin: 33px;
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: "Karla", verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
 }
 
 p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
+  font-family: "Karla", verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
 }
@@ -20,15 +20,12 @@ pre {
 }
 
 a {
-  color: #000;
+  color: #fff;
 
   &:visited {
-    color: #666;
   }
 
   &:hover {
-    color: #fff;
-    background-color: #000;
   }
 }
 
@@ -81,4 +78,13 @@ div {
 
 label {
   display: block;
+}
+
+nav {
+  background-color: #ae5d54;
+  color: #fff;
+}
+
+.white {
+  color: #fff;
 }
