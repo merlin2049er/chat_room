@@ -15,6 +15,25 @@
   </head>
 
   <body>
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Chatty is a social media site! With Chatty you can create rooms to chat with other users on. You can also view other peoples profiles and see which of your friends are online! Happy Chatting!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <nav class="navbar fixed-top navbar-expand-lg">
       <div class="container-fluid">
         <div class="navbar-brand"><%= link_to "Chatty", rooms_path, class: "item" %></div>
@@ -24,7 +43,7 @@
 
         <div class="collapse navbar-collapse white" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+          <!--  <li class="nav-item">
               <a class="nav-link" href="#">About</a>
             </li>
             <li class="nav-item dropdown">
@@ -37,7 +56,13 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Something else here</a>
               </div>
-            </li>
+            </li> -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+              About Chatty
+            </button>
+
+            <!-- Modal -->
+
           </ul>
 
           <div class="nav-item intro">
