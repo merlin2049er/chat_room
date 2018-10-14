@@ -30,13 +30,15 @@
 
 
           <hr>
-          <p><a href="/users/<%= message.user_id %>" class="time"><%= message.user.name if message.user %></a> posted <%= "#{time_ago_in_words(message.created_at || Time.now)} ago" %></p>
+          <p><a href="/users/<%= message.user_id %>" class="time"><%= message.user.name if message.user %></a> posted <%= "#{time_ago_in_words(message.created_at || Time.now)} ago" %>
+            <% if current_user && current_user == message.user %>
+              <%= link_to ('<i class="far fa-times-circle"></i>').html_safe, room_message_path(room_id: @room.id, id: message.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+            <% if signed_in? && current_user.admin? %>
+              <%= link_to ('<i class="far fa-times-circle"></i>').html_safe, room_message_path(room_id: @room.id, id: message.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </p>
           <p class="message"><%= message.body %></p>
-          <%= link_to "up", vote_room_message_path(room_id: @room.id, id: message.id, type: "up"), method: "post" %>
-          <%= link_to "down", vote_room_message_path(room_id: @room.id, id: message.id, type: "down"), method: "post" %>
-          <% if signed_in? && current_user.admin? %>
-            <%= link_to ('<i class="fas fa-trash-alt"></i>').html_safe, room_message_path(room_id: @room.id, id: message.id), method: :delete, data: { confirm: 'Are you sure?' } %>
-          <% end %>
         </div><!-- end col -->
       </div><!-- end row -->
     <% end %>
