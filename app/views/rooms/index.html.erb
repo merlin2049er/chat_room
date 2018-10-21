@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md room">
-    <h1>Rooms</h1>
+    <h1>Choose a Room...</h1>
       <table>
         <thead>
           <tr>
@@ -17,8 +17,10 @@
             <tr>
               <td class=""><%= link_to "#{room.name}", room , class: "tbody"%></td>
               <td class="tbody"><%= room.subject %></td>
-              <td><%= link_to 'Edit', edit_room_path(room) %></td>
-              <td><%= link_to 'Destroy', room, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <div class="btn-group">
+                <td><%= link_to 'Edit', edit_room_path(room), class: "btn btn-outline-light btn-sm" %></td>
+                <td><%= link_to 'Destroy', room, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-light btn-sm" %></td>
+              </div>
             </tr>
           <% end %>
         </tbody>

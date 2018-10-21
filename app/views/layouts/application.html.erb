@@ -75,9 +75,9 @@
           </div>
 
           <%= form_with(url: rooms_path, method: 'get', local: true) do |form| %>
-            <%= form.label :q, 'Search Room Names:', class: "search_text" %>
-            <%= form.text_field :q, id: 'q', value: params[:q], class: 'field' %>
-            <%= form.submit 'Search', class: "search_text" %>
+            <%= form.label :q, 'Search Room Names:', class: "search_text set" %>
+            <%= form.text_field :q, id: 'q', value: params[:q], class: 'field set' %>
+            <%= form.submit 'Search', class: "set btn-light" %>
             <i class="fas fa-search"></i>
           <% end %>
         </div>
