@@ -2,13 +2,16 @@
   <div class="col-md-9 login">
     <p id="notice"><%= notice %></p>
 
-    <p class="tbody">
+    <div class="tbody space">
       <strong>Name:</strong>
       <%= @room.name %></br>
       <strong>Subject:</strong>
       <%= @room.subject %>
 
-    </p>
+    </div>
+    <% if !signed_in? %>
+    <h5><%= link_to('Login', new_user_session_path) %> to post a review!</h3>
+    <% end %>
 
     <div class="alert alert-info" style="display:none" role="alert">A new comment was posted!</div>
 

@@ -1,4 +1,7 @@
 class RoomsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
+  load_and_authorize_resource
+
   before_action :set_room, only: [:show, :edit, :update, :destroy]
   before_action :available_rooms, only: [:show, :index]
 
@@ -15,6 +18,8 @@ class RoomsController < ApplicationController
     else
       rooms_url
     end
+
+
   end
 
   # GET /rooms/1
