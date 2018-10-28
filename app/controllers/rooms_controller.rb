@@ -12,7 +12,8 @@ class RoomsController < ApplicationController
       search_term = params[:q]
       @rooms = Room.search(search_term)
       if @rooms.empty?
-        flash[:alert] = "Sorry, nothing matched '#{search_term}'. Try these instead!"
+        flash.now[:notice] = "Sorry, nothing matched '#{search_term}'. Try these instead!"
+        @rooms = Room.all
         rooms_url
       end
     else
